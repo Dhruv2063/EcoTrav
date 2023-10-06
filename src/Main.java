@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 
 class BusStation {
@@ -73,9 +74,9 @@ public class Main {
         ElectricBusNetwork busNetwork = new ElectricBusNetwork();
 
         // Adding bus stations
-        BusStation station1 = new BusStation(1, "Station A");
-        BusStation station2 = new BusStation(2, "Station B");
-        BusStation station3 = new BusStation(3, "Station C");
+        BusStation station1 = new BusStation(1, "Prem Nagar");
+        BusStation station2 = new BusStation(2, "Ballupur Chowk");
+        BusStation station3 = new BusStation(3, "Clock Tower");
 
         busNetwork.addStation(station1);
         busNetwork.addStation(station2);
