@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+<<<<<<< HEAD
 import java.sql.SQLOutput;
 import java.util.*;
 
@@ -64,6 +65,83 @@ public class Main {
     {
         Main g = new Main();
         Create_Metro_Map(g);
+=======
+import java.util.*;
+
+
+public class Routing {
+
+    public class Vertex
+    {
+        HashMap<String, Integer> nbrs = new HashMap<>();
+    }
+
+    static HashMap<String, Vertex> vtx;
+
+    public Routing()
+    {
+        vtx = new HashMap<>();
+    }
+
+    public int numVertex()
+    {
+        return this.vtx.size();
+    }
+
+    public boolean containsVertex(String vname)
+    {
+        return this.vtx.containsKey(vname);
+    }
+
+    public void addVertex(String vname)
+    {
+        Vertex vrt = new Vertex();
+        vtx.put(vname, vrt);
+    }
+
+    public int numedges()
+    {
+        ArrayList<String> Keys = new ArrayList<>(vtx.keySet());
+        int count = 0;
+
+        for (String key : Keys)
+        {
+            Vertex vrt = vtx.get(key);
+            count = count + vrt.nbrs.size();
+        }
+
+        return count / 2;
+    }
+
+    public boolean containsEdge(String vname1, String vname2)
+    {
+        Vertex vtx1 = vtx.get(vname1);
+        Vertex vtx2 = vtx.get(vname2);
+
+        if (vtx1 == null || vtx2 == null || !vtx1.nbrs.containsKey(vname2))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public void addEdge(String vname1, String vname2, int value)
+    {
+        Vertex vtx1 = vtx.get(vname1);
+        Vertex vtx2 = vtx.get(vname2);
+
+        if  (vtx1 == null || vtx2 == null || vtx1.nbrs.containsKey(vname2))
+        {
+            return;
+        }
+
+        vtx1.nbrs.put(vname2, value);
+        vtx2.nbrs.put(vname1, value);
+    }
+
+    public static void main(String[] args) throws IOException {
+>>>>>>> 099827470e3e4329a8c80da8b716484277d3729d
 
         System.out.println("\n\t\t\t***WELCOME TO THE ELECTRIC BUS MAP***");
 
@@ -100,7 +178,10 @@ public class Main {
             }
         }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 099827470e3e4329a8c80da8b716484277d3729d
         }
     }
