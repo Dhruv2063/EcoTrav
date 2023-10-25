@@ -126,7 +126,7 @@ public class Main {
         for (BusConnection connection : connections) {
             System.out.println("From: " + connection.getSource().getName() +
                     " To: " + connection.getDestination().getName() +
-                    " Distance: " + connection.getDistance() + " miles");
+                    " Distance: " + connection.getDistance() + " km");
         }
     }
 }
