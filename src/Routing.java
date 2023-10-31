@@ -269,7 +269,6 @@ public class Routing {
         String vname;
         String psf;
         int min_dis;
-        int min_time;
     }
 
 
@@ -284,7 +283,6 @@ public class Routing {
         sp.vname = src;
         sp.psf = src + " ";
         sp.min_dis = 0;
-        sp.min_time = 0;
 
         stack.addFirst(sp);
 
@@ -393,9 +391,8 @@ public class Routing {
             System.out.println("1. LIST ALL THE STATIONS IN THE MAP");
             System.out.println("2. SHOW THE BUS MAP");
             System.out.println("3. GET SHORTEST PATH (DISTANCE WISE) TO REACH FROM A 'SOURCE' STATION TO 'DESTINATION' STATION");
-            System.out.println("4. GET SHORTEST PATH (TIME WISE) TO REACH FROM A 'SOURCE' STATION TO 'DESTINATION' STATION");
-            System.out.println("5. EXIT THE MENU");
-            System.out.print("\nENTER YOUR CHOICE FROM THE ABOVE LIST (1 to 5) : ");
+            System.out.println("4. EXIT THE MENU");
+            System.out.print("\nENTER YOUR CHOICE FROM THE ABOVE LIST (1 to 4) : ");
 
             int choice = -1;
             try
@@ -404,7 +401,7 @@ public class Routing {
             } catch(Exception e)
             {
             }
-            if (choice == 5)
+            if (choice == 4)
             {
                 System.exit(0);
             }
@@ -423,7 +420,7 @@ public class Routing {
                     String s1 = inp.readLine();
                     String s2 = inp.readLine();
 
-                    HashMap<String, Boolean> processed2 = new HashMap<>();
+                    HashMap<String, Boolean> processed2 = new HashMap<>(); // Checking if the hashmap does contain these attributes
                     boolean vertexS1Missing = !g.containsVertex(s1);
                     boolean vertexS2Missing = !g.containsVertex(s2);
                     boolean noPathFromS1ToS2 = !g.hasPath(s1, s2, processed2);
@@ -435,12 +432,25 @@ public class Routing {
                     else
                     {
                         ArrayList<String> str = g.get_Interchanges(g.Get_Minimum_Distance(s1, s2));
-
-
+                        int len = str.size();
+                        System.out.println("SOURCE STATION : " + s1);
+                        System.out.println("DESTINATION STATION : " + s2);
+                        System.out.println("DISTANCE : " + str.get(len-1));
+                        System.out.println("NUMBER OF INTERCHANGES : " + str.get(len-2));
+                        System.out.println("~~~~~~~~~~");
+                        System.out.println("START ==> " + str.get(0));
+                        for (int i=1; i<len-3; i++)
+                        {
+                            System.out.println(str.get(i));
+                        }
+                        System.out.println(str.get(len-3) + " ==> END");
+                        System.out.println("\n~~~~~~~~~~");
                     }
+                    break;
+                default: //If switch expression does not match with any case, then default statements are executed
+                    System.out.println("Please enter a valid option! ");
+                    System.out.println("The options you choose are from 1 to 4. ");
             }
         }
-
-
-        }
     }
+}
