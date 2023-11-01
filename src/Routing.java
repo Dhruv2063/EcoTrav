@@ -1,29 +1,35 @@
 import java.io.*;
 import java.util.*;
 
-public class Routing {
+public class Routing
+{
 
     static HashMap<String, HashMap<String, Integer>> busMap;
 
-    public Routing() {
+    public Routing()
+    {
         busMap = new HashMap<>();
     }
 
-    public void addStation(String stationName) {
+    public void addStation(String stationName)
+    {
         busMap.put(stationName, new HashMap<>());
     }
 
-    public void addConnection(String source, String destination, int distance) {
+    public void addConnection(String source, String destination, int distance)
+    {
         busMap.get(source).put(destination, distance);
         busMap.get(destination).put(source, distance);
     }
 
-    public void displayStations() {
+    public void displayStations()
+    {
         System.out.println("List of Stations:");
         busMap.keySet().forEach(station -> System.out.println(station));
     }
 
-    public void displayBusMap() {
+    public void displayBusMap()
+    {
         System.out.println("Electric Bus Route Map:");
         busMap.forEach((station, connections) -> {
             System.out.println(station + " =>");
@@ -33,15 +39,8 @@ public class Routing {
         });
     }
 
-    public class Station {
-        Map<String, Integer> connections;
-
-        public Station() {
-            connections = new HashMap<>();
-        }
-    }
-
-    public int dijkstra(String source, String destination) {
+    public int dijkstra(String source, String destination)
+    {
         if (!busMap.containsKey(source) || !busMap.containsKey(destination)) {
             System.out.println("Invalid station names.");
             return -1;
@@ -51,17 +50,20 @@ public class Routing {
         Map<String, String> previousStations = new HashMap<>();
         Set<String> unvisited = new HashSet<>(busMap.keySet());
 
-        for (String stationName : unvisited) {
+        for (String stationName : unvisited)
+        {
             distances.put(stationName, Integer.MAX_VALUE);
         }
         distances.put(source, 0);
 
-        while (!unvisited.isEmpty()) {
+        while (!unvisited.isEmpty())
+        {
             String current = unvisited.stream()
                     .min(Comparator.comparingInt(distances::get))
                     .orElse(null);
 
-            if (current == null) {
+            if (current == null)
+            {
                 System.out.println("No path found.");
                 return -1;
             }
@@ -81,7 +83,8 @@ public class Routing {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
         Routing busNetwork = new Routing();
         busNetwork.addStation("ISBT");
         busNetwork.addStation("Jolly Grant Airport");
