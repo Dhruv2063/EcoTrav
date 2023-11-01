@@ -28,7 +28,7 @@ public class Routing {
         busMap.forEach((station, connections) -> {
             System.out.println(station + " =>");
             connections.connections.forEach((destination, distance) ->
-                    System.out.printf("\t%s (Distance: %d miles)%n", destination, distance)
+                    System.out.printf("\t%s (Distance: %d kilometers)%n", destination, distance)
             );
         });
     }
@@ -81,7 +81,7 @@ public class Routing {
     }
 
 
-    public static void Routing(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         Routing busNetwork = new Routing();
         busNetwork.addStation("ISBT");
         busNetwork.addStation("Jolly Grant Airport");
@@ -133,6 +133,7 @@ public class Routing {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
+            System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("\nElectric Bus Network Menu:");
             System.out.println("1. List all stations");
             System.out.println("2. Show bus map");
@@ -143,17 +144,21 @@ public class Routing {
 
             switch (choice) {
                 case 1:
+                    System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     busNetwork.displayStations();
                     break;
                 case 2:
+                    System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     busNetwork.displayBusMap();
                     break;
                 case 3:
+                    System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     System.out.print("Enter source station: ");
                     String source = reader.readLine();
                     System.out.print("Enter destination station: ");
                     String destination = reader.readLine();
                     int distance = busNetwork.dijkstra(source, destination);
+                    System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     if (distance != -1) {
                         System.out.println("Shortest distance: " + distance + " miles");
                         }
