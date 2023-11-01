@@ -3,19 +3,19 @@ import java.util.*;
 
 public class Routing {
 
-    static HashMap<String, Station> busMap;
+    static HashMap<String, HashMap<String, Integer>> busMap;
 
     public Routing() {
         busMap = new HashMap<>();
     }
 
     public void addStation(String stationName) {
-        busMap.put(stationName, new Station());
+        busMap.put(stationName, new HashMap<>());
     }
 
     public void addConnection(String source, String destination, int distance) {
-        busMap.get(source).connections.put(destination, distance);
-        busMap.get(destination).connections.put(source, distance);
+        busMap.get(source).put(destination, distance);
+        busMap.get(destination).put(source, distance);
     }
 
     public void displayStations() {
@@ -27,7 +27,7 @@ public class Routing {
         System.out.println("Electric Bus Route Map:");
         busMap.forEach((station, connections) -> {
             System.out.println(station + " =>");
-            connections.connections.forEach((destination, distance) ->
+            connections.forEach((destination, distance) ->
                     System.out.printf("\t%s (Distance: %d kilometers)%n", destination, distance)
             );
         });
@@ -68,7 +68,7 @@ public class Routing {
 
             unvisited.remove(current);
 
-            busMap.get(current).connections.forEach((neighbor, distance) -> {
+            busMap.get(current).forEach((neighbor, distance) -> {
                 int newDistance = distances.get(current) + distance;
                 if (newDistance < distances.get(neighbor)) {
                     distances.put(neighbor, newDistance);
@@ -160,7 +160,7 @@ public class Routing {
                     int distance = busNetwork.dijkstra(source, destination);
                     System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     if (distance != -1) {
-                        System.out.println("Shortest distance: " + distance + " miles");
+                        System.out.println("Shortest distance: " + distance + " Kilometer");
                         }
                     break;
                 case 4:
