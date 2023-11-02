@@ -18,6 +18,11 @@ public class Routing
 
     public void addConnection(String source, String destination, int distance)
     {
+        if (!busMap.containsKey(source) || !busMap.containsKey(destination))
+        {
+            System.out.println("Invalid station names.");
+            return;
+        }
         busMap.get(source).put(destination, distance);
         busMap.get(destination).put(source, distance);
     }
@@ -39,7 +44,7 @@ public class Routing
         });
     }
 
-    public int dijkstra(String source, String destination)
+    public int path(String source, String destination)
     {
         if (!busMap.containsKey(source) || !busMap.containsKey(destination)) {
             System.out.println("Invalid station names.");
@@ -47,7 +52,6 @@ public class Routing
         }
 
         Map<String, Integer> distances = new HashMap<>();
-        Map<String, String> previousStations = new HashMap<>();
         Set<String> unvisited = new HashSet<>(busMap.keySet());
 
         for (String stationName : unvisited)
@@ -74,14 +78,11 @@ public class Routing
                 int newDistance = distances.get(current) + distance;
                 if (newDistance < distances.get(neighbor)) {
                     distances.put(neighbor, newDistance);
-                    previousStations.put(neighbor, current);
                 }
             });
         }
-
         return distances.get(destination);
     }
-
 
     public static void main(String[] args) throws IOException
     {
@@ -92,46 +93,45 @@ public class Routing
         busNetwork.addStation("Rispana Pull");
         busNetwork.addStation("Clock Tower");
         busNetwork.addStation("Jogiwala");
-        busNetwork.addStation("Mokhampur");
         busNetwork.addStation("Ballupur Chowk");
         busNetwork.addStation("IMA");
         busNetwork.addStation("FRI");
         busNetwork.addStation("Pacific Mall");
         busNetwork.addStation("Prem Nagar");
         busNetwork.addStation("Survey Chowk");
-        busNetwork.addStation("Rajpur Road");
         busNetwork.addStation("Sai Mandir");
         busNetwork.addStation("IT Park");
         busNetwork.addStation("Railway Station");
         busNetwork.addStation("Musoorie Diversion");
-        busNetwork.addStation("Saharanpur Chowk");
-        busNetwork.addStation("Prince Chowk");
-        busNetwork.addStation("Nanda Ki Chowki");
         busNetwork.addStation("Balliwala Chowk");
-        busNetwork.addStation("Shimla Bypass");
 
-        busNetwork.addConnection("ISBT", "Jolly Grant Airport", 29);
-        busNetwork.addConnection("Jolly Grant Airport", "Kargi Chowk", 27);
-        busNetwork.addConnection("Kargi Chowk", "Rispana Pull", 5);
-        busNetwork.addConnection("Rispana Pull", "Clock Tower", 6);
-        busNetwork.addConnection("Clock Tower", "Jogiwala", 7);
-        busNetwork.addConnection("Jogiwala", "Mokhampur", 3);
-        busNetwork.addConnection("Mokhampur", "Ballupur Chowk", 10);
-        busNetwork.addConnection("Ballupur Chowk", "IMA", 4);
+        busNetwork.addConnection("ISBT", "Prem Nagar", 9);
+        busNetwork.addConnection("ISBT", "Kargi Chowk", 3);
+        busNetwork.addConnection("ISBT", "Balliwala Chowk", 6);
+        busNetwork.addConnection("Prem Nagar", "IMA", 2);
         busNetwork.addConnection("IMA", "FRI", 2);
-        busNetwork.addConnection("FRI", "Pacific Mall", 12);
-        busNetwork.addConnection("Pacific Mall", "Prem Nagar", 16);
-        busNetwork.addConnection("Prem Nagar", "Survey Chowk", 10);
-        busNetwork.addConnection("Survey Chowk", "Rajpur Road", 5);
-        busNetwork.addConnection("Rajpur Road", "Sai Mandir", 7);
-        busNetwork.addConnection("Sai Mandir", "IT Park", 10);
-        busNetwork.addConnection("IT Park", "Railway Station", 8);
-        busNetwork.addConnection("Railway Station", "Musoorie Diversion", 8);
-        busNetwork.addConnection("Musoorie Diversion", "Saharanpur Chowk", 9);
-        busNetwork.addConnection("Saharanpur Chowk", "Prince Chowk", 2);
-        busNetwork.addConnection("Prince Chowk", "Nanda Ki Chowki", 10);
-        busNetwork.addConnection("Nanda Ki Chowki", "Balliwala Chowk", 7);
-        busNetwork.addConnection("Balliwala Chowk", "Shimla Bypass", 22);
+        busNetwork.addConnection("IMA", "Balliwala Chowk", 3);
+        busNetwork.addConnection("FRI", "Ballupur Chowk", 2);
+        busNetwork.addConnection("FRI", "Balliwala Chowk", 2);
+        busNetwork.addConnection("Ballupur Chowk", "Balliwala Chowk", 2);
+        busNetwork.addConnection("Ballupur Chowk", "Clock Tower", 4);
+        busNetwork.addConnection("Balliwala Chowk", "Sai Mandir", 2);
+        busNetwork.addConnection("Clock Tower", "Survey Chowk", 2);
+        busNetwork.addConnection("Clock Tower", "Pacific Mall", 6);
+        busNetwork.addConnection("Clock Tower", "IT Park", 8);
+        busNetwork.addConnection("Clock Tower", "Sai Mandir", 2);
+        busNetwork.addConnection("Clock Tower", "Railway Station", 2);
+        busNetwork.addConnection("Clock Tower", "Rispana Pull", 5);
+        busNetwork.addConnection("Musoorie Diversion", "Pacific Mall", 1);
+        busNetwork.addConnection("Musoorie Diversion", "IT Park", 3);
+        busNetwork.addConnection("IT Park", "Survey Chowk", 6);
+        busNetwork.addConnection("Survey Chowk", "Rispana Pull", 5);
+        busNetwork.addConnection("Sai Mandir", "Railway Station", 2);
+        busNetwork.addConnection("Railway Station", "Kargi Chowk", 4);
+        busNetwork.addConnection("Railway Station", "Rispana Pull", 4);
+        busNetwork.addConnection("Kargi Chowk", "Rispana Pull", 4);
+        busNetwork.addConnection("Rispana Pull", "Jogiwala", 2);
+        busNetwork.addConnection("Jogiwala", "Jolly Grant Airport", 22);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -142,6 +142,7 @@ public class Routing
             System.out.println("2. Show bus map");
             System.out.println("3. Get shortest distance between stations");
             System.out.println("4. Exit");
+            System.out.print("\nENTER YOUR CHOICE FROM THE ABOVE LIST (1 to 4) : ");
 
             int choice = Integer.parseInt(reader.readLine());
 
@@ -160,7 +161,7 @@ public class Routing
                     String source = reader.readLine();
                     System.out.print("Enter destination station: ");
                     String destination = reader.readLine();
-                    int distance = busNetwork.dijkstra(source, destination);
+                    int distance = busNetwork.path(source, destination);
                     System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     if (distance != -1) {
                         System.out.println("Shortest distance: " + distance + " Kilometer");
